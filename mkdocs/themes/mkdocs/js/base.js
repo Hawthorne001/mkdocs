@@ -57,10 +57,10 @@ document.addEventListener("DOMContentLoaded", function () {
       var page;
       switch (key) {
           case shortcuts.next:
-              page = document.querySelector('.navbar a[rel="next"]:first').getAttribute('href');
+              page = document.querySelector('.navbar a[rel="next"]');
               break;
           case shortcuts.previous:
-              page = document.querySelector('.navbar a[rel="prev"]:first').getAttribute('href');
+              page = document.querySelector('.navbar a[rel="prev"]');
               break;
           case shortcuts.search:
               e.preventDefault();
@@ -74,9 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
               break;
           default: break;
       }
-      if (page) {
+      if (page && page.hasAttribute('href')) {
           keyboard_modal.hide();
-          window.location.href = page;
+          window.location.href = page.getAttribute('href');
       }
     });
 
@@ -118,8 +118,14 @@ document.addEventListener("DOMContentLoaded", function () {
         item.classList.remove('open');
 
         popup.scrollTop = 0;
-        popup.querySelector('.dropdown-menu').scrollTop = 0;
-        popup.querySelector('.dropdown-submenu > a').classList.remove('open');
+        var menu = popup.querySelector('.dropdown-menu');
+        if (menu) {
+            menu.scrollTop = 0;
+        }
+        var dropdown = popup.querySelector('.dropdown-submenu > a');
+        if (dropdown) {
+            dropdown.classList.remove('open');
+        }
     }
 
     document.querySelectorAll('.dropdown-submenu > a').forEach(function(item) {
